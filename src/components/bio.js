@@ -25,6 +25,7 @@ const Bio = () => {
             name
             summary
           }
+          description
           social {
             twitter
           }
@@ -33,7 +34,7 @@ const Bio = () => {
     }
   `)
 
-  const { author, social } = data.site.siteMetadata
+  const { author, social, description } = data.site.siteMetadata
   return (
     <div
       style={{
@@ -53,11 +54,20 @@ const Bio = () => {
           borderRadius: `50%`
         }}
       />
-      <p>
-        Written by <strong>{author.name}</strong> {author.summary}
-        {` `}
-        <a href={`https://twitter.com/${social.twitter}`}>You should follow him on Twitter</a>
-      </p>
+      <div>
+        <p
+          style={{
+            margin: 0
+          }}>
+          A blog by <a href={`https://twitter.com/${social.twitter}`}>{author.name}</a>.
+        </p>
+        <p
+          style={{
+            margin: 0
+          }}>
+          {description}
+        </p>
+      </div>
     </div>
   )
 }

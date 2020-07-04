@@ -10,4 +10,4 @@ I decided to make a blog to write down some of the learning I make in my persona
 
 Some of these projects are private, so not all of the learnings will relate to visible projects.
 
-Ill also post some random ramblings maybe, im not sure.
+I'll also post some random ramblings maybe, im not sure.

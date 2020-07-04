@@ -5,7 +5,7 @@ module.exports = {
       name: `Alex`,
       summary: `Ajr.codes personal blog`
     },
-    description: `A personal blog for things I learn and other random thoughts`,
+    description: `Random thoughts and things I learn.`,
     siteUrl: `https://ajr.codes/`,
     social: {
       twitter: `ajr_codes`
@@ -71,13 +71,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `Alex's Blog`,
+        short_name: `ajr.codes`,
         start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `#663399`,
+        background_color: `#0c161d`,
+        theme_color: `#9cb6c9`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`
+        icon: `content/assets/profile-pic.webp`
       }
     },
     `gatsby-plugin-react-helmet`,
