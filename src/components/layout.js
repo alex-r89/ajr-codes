@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { createGlobalStyle } from 'styled-components'
+import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader'
+deckDeckGoHighlightElement()
 
 const GlobalStyle = createGlobalStyle`
   body {
