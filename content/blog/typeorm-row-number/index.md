@@ -1,7 +1,7 @@
 ---
-title: Ranking ordered Postgres queries using Typeorm
+title: Ranking ordered Postgres queries using TypeOrm
 date: '2020-07-10'
-description: 'How to implement Postgres ROW_NUMBER to "rank" ordered queries using Typeorm'
+description: 'How to implement Postgres ROW_NUMBER to "rank" ordered queries using TypeOrm'
 ---
 
 ##The Task

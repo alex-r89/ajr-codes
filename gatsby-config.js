@@ -80,7 +80,7 @@ module.exports = {
         background_color: `#0c161d`,
         theme_color: `#9cb6c9`,
         display: `minimal-ui`,
-        icon: `content/assets/profile-pic.webp`
+        icon: `content/assets/profile-pic.jpg`
       }
     },
     `gatsby-plugin-react-helmet`,
