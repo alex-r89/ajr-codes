@@ -4,17 +4,17 @@ date: '2020-11-07'
 description: 'Statically generating paths using NextJS'
 ---
 
-While working on a side project, I decided to use SSR (via `getServerSideProps`) to build out paginated paths. The reason for this decision was that data on these pages is fairly dynamic, so thought SSG was out of the question. Plus I wasnt sure how I would generate all of the pages at build time. The issue I ran into however was fairly slow metrics. The start render and First Contentful Paint were very poor at around 4 seconds:
+While working on a side project, I decided to use SSR (via `getServerSideProps`) to build out paginated paths. The reason for this decision was that data on these pages is fairly dynamic, so I thought SSG was out of the question. Plus I wasn't sure how I would generate all of the pages at build time. The issue I ran into however was fairly slow metrics. The start render and First Contentful Paint were very poor at around 4.5 seconds:
 
 ###Webpage Test SSR Vitals
 
 ![SSR Webpage Test Score](SSR.png 'SSR Webpage Test Score')
 
-After reading up on the NextJS documentation, looking and some of the NextJS examples ([found here](https://github.com/vercel/next.js/tree/canary/examples)) and asking in the Github discussions section, I found out that I could use NextJS to statically generate the paths (i.e. `/page/2`) as well as statically generate pages within those paths (i.e. `/product/32`), while not needing to worry about stale data on the page.
+After reading up on the NextJS documentation, looking and some of the NextJS examples ([found here](https://github.com/vercel/next.js/tree/canary/examples)) and asking in the Github discussions section, I found out that I could use NextJS to statically generate the paths (i.e. `/page/2`) as well as statically generate pages, while not needing to worry about stale data on the page.
 
 ###Generating static pages with `getStaticProps`
 
-The first problem to solve was to work out how to generate a page statically to improve the metrics above. Thankfully, this is fairly straight forward using `getStaticProps`. The `getStaticProps` method replaces `getServerSideProps` and is exported at the bottom of pages in the same way. This allows you to carry out usual data fetches to populate the page at build time. For my personal project, I make calls to my _GraphQL_ resolvers here to fetch information required in the page:
+The first problem to solve was to work out how to generate a page statically to improve the metrics above. Thankfully, this is fairly straight forward using `getStaticProps`. The `getStaticProps` method replaces `getServerSideProps` and is exported at the bottom of pages in the same way. This allows you to carry out usual data fetches to populate a page at build time. For my personal project, I make calls to my _GraphQL_ resolvers here to fetch information required in the page:
 
 ```
 export async function getStaticProps({ params }) {
@@ -105,7 +105,7 @@ const PaginatedPage = ({ servers, page }) => {
 
 NICE!
 
-The result from the above was vastly improved page metrics:
+The result from the above was that page load speeds halved:
 
 ###Webpage Test SSG Vitals
 
