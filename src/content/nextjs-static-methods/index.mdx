@@ -1,18 +1,18 @@
 ---
 title: Static Site Generation (SSG) with NextJS
-date: '2020-11-07'
+publishedAt: '2020-11-07'
 description: 'Statically generating paths using NextJS'
 ---
 
 While working on a side project, I decided to use SSR (via `getServerSideProps`) to build out paginated paths. The reason for this decision was that data on these pages is fairly dynamic, so I thought SSG was out of the question. Plus I wasn't sure how I would generate all of the pages at build time. The issue I ran into however was fairly slow metrics. The start render and First Contentful Paint were very poor at around 4.5 seconds:
 
-###Webpage Test SSR Vitals
+### Webpage Test SSR Vitals
 
-![SSR Webpage Test Score](SSR.png 'SSR Webpage Test Score')
+![SSR Webpage Test Score](/images/SSR.png 'SSR Webpage Test Score')
 
 After reading up on the NextJS documentation, looking and some of the NextJS examples ([found here](https://github.com/vercel/next.js/tree/canary/examples)) and asking in the Github discussions section, I found out that I could use NextJS to statically generate the paths (i.e. `/page/2`) as well as statically generate pages, while not needing to worry about stale data on the page.
 
-###Generating static pages with `getStaticProps`
+### Generating static pages with `getStaticProps`
 
 The first problem to solve was to work out how to generate a page statically to improve the metrics above. Thankfully, this is fairly straight forward using `getStaticProps`. The `getStaticProps` method replaces `getServerSideProps` and is exported at the bottom of pages in the same way. This allows you to carry out usual data fetches to populate a page at build time. For my personal project, I make calls to my _GraphQL_ resolvers here to fetch information required in the page:
 
@@ -49,11 +49,11 @@ const PaginatedPage = ({ servers, page }) => {
 
 There are two other things to explain in the code snippet above, `params` and `revalidate`.
 
-###Using `revalidate` to update statically generated page data
+### Using `revalidate` to update statically generated page data
 
 The optional `revalidate` parameter allows for [Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration), which essentially solves the issue of data going stale. With this paramaeter added to `getStaticProps`, the page will be re-generated after a set number of seconds as traffic comes in. In my case above, every 1800 seconds (or 30 minutes) this page will be re-built once traffic hits the route, meaning I dont need to rebuild my entire application to get new data from the `getServersQuery` resolver.
 
-###Building routes statically using `getStaticPaths`
+### Building routes statically using `getStaticPaths`
 
 This is where `params` comes in. The second issue I faced was needing to generate multiple paginatable pages at build time. How would I know how many pages I needed to build? For example, if a company had 400 products, with 20 products per page, how would they know to build 20 pages, allowing a user to go to `/page/15` and see a statically generated (fast) page of products. This is solved by `getStaticPaths`.
 
@@ -86,7 +86,7 @@ export async function getStaticPaths() {
 
 The return from `getStaticPaths` is the paths that can be generated. This is passed into `getStaticProps` as the `param` prop, which then generates this path. AMAZING! But what is `fallback`?
 
-###Building future routes using `fallback`
+### Building future routes using `fallback`
 
 There is an issue with the explanation above. What happens if a company was to add 400 new products, and needed 20 new page routes for these (i.e. allowing a user to go to `/page/55`). This is solved with `fallback`.
 
@@ -107,6 +107,6 @@ NICE!
 
 The result from the above was that page load speeds halved:
 
-###Webpage Test SSG Vitals
+### Webpage Test SSG Vitals
 
-![SSG Webpage Test Score](SSG.png 'SSG Webpage Test Score')
+![SSG Webpage Test Score](/images/SSG.png 'SSG Webpage Test Score')
