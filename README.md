@@ -1,5 +1,3 @@
 # [ajr.codes](https://ajr.codes)
 
-My personal blog. Forked from [Gatsby blog starter](https://github.com/gatsbyjs/gatsby-starter-blog) with some tweaks.
-
-To run locally, `yarn`, then `gatsby develop`, then open https://localhost:8000.
+My personal blog. Using [Portfolio Starter Kit](https://vercel.com/templates/portfolio/portfolio-starter-kit) with some extra stuff like eslint.
