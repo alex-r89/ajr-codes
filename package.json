@@ -3,11 +3,16 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "generate-posts": "tsx src/utils/generate-posts.ts",
+    "dev": "pnpm generate-posts && next dev",
+    "build": "pnpm generate-posts && next build",
+    "start": "next start",
+    "preview": "pnpm generate-posts && opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "pnpm generate-posts && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.14.8",
     "@tailwindcss/postcss": "4.0.0-alpha.13",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
@@ -15,7 +20,7 @@
     "@vercel/analytics": "^1.1.3",
     "@vercel/speed-insights": "^1.0.9",
     "geist": "1.2.2",
-    "next": "^16.0.10",
+    "next": "^15.5.9",
     "next-mdx-remote": "^4.4.1",
     "postcss": "^8.4.35",
     "react": "^19.2.1",
@@ -24,11 +29,13 @@
     "tailwindcss": "4.0.0-alpha.13",
     "typescript": "^5"
   },
-    "devDependencies": {
+  "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@next/eslint-plugin-next": "^15.3.3",
     "eslint": "^9.28.0",
     "eslint-config-next": "15.3.3",
-    "eslint-plugin-react-hooks": "^5.2.0"
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "tsx": "^4.21.0",
+    "wrangler": "^4.58.0"
   }
 }

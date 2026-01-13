@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { BlogPosts } from 'src/app/components/posts'
 
 export default function Page() {
@@ -5,8 +6,8 @@ export default function Page() {
     <section>
       <header className='mb-[4.375rem] flex'>
         <div className='mr-3.5 mb-0 inline-block relative overflow-hidden w-[50px] h-[50px] min-w-[50px] rounded-full'>
-          <img
-            src='images/profile-pic.jpg'
+          <Image
+            src='/images/profile-pic.jpg'
             alt='Alex - Blog Author'
             width='50'
             height='50'
