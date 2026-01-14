@@ -25,14 +25,45 @@ function Code({ children, className, ...props }) {
 
   if (match) {
     const codeHTML = highlight(codeString)
-    return <code dangerouslySetInnerHTML={{ __html: codeHTML }} className={className} {...props} />
+    return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
   }
 
+  // Inline code styling
   return (
-    <code className={className} {...props}>
+    <code
+      className='px-1.5 py-0.5 mx-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-[0.9em] font-mono border border-neutral-200 dark:border-neutral-700 text-pink-600 dark:text-pink-400'
+      {...props}>
       {children}
     </code>
   )
+}
+
+function slugify(str) {
+  return str
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/&/g, '-and-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+}
+
+function createHeading(level) {
+  const Heading = ({ children }) => {
+    const slug = slugify(children)
+    const Tag = `h${level}` as keyof JSX.IntrinsicElements
+
+    return (
+      <Tag id={slug}>
+        <a href={`#${slug}`} className='anchor' />
+        {children}
+      </Tag>
+    )
+  }
+
+  Heading.displayName = `Heading${level}`
+  return Heading
 }
 
 export function CustomMDX({ source }) {
@@ -40,6 +71,12 @@ export function CustomMDX({ source }) {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
+        h1: createHeading(1),
+        h2: createHeading(2),
+        h3: createHeading(3),
+        h4: createHeading(4),
+        h5: createHeading(5),
+        h6: createHeading(6),
         a: CustomLink,
         img: CustomImage,
         code: Code

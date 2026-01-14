@@ -37,32 +37,32 @@ However, the problem I was seeing next was that the row number wasn't returned. 
 
 For reference, this is the full **incorrect** solution:
 
-```
-const response =  await  getConnection()
-.createQueryBuilder()
-.select('server')
-.addSelect('ROW_NUMBER () OVER (ORDER BY "vote_count" DESC) as "rank"')
-.from(Server,  'server')
-.where('is_sponsored = true')
-.offset(0)
-.limit(20)
-.getMany()
+```javascript
+const response = await getConnection()
+  .createQueryBuilder()
+  .select('server')
+  .addSelect('ROW_NUMBER () OVER (ORDER BY "vote_count" DESC) as "rank"')
+  .from(Server, 'server')
+  .where('is_sponsored = true')
+  .offset(0)
+  .limit(20)
+  .getMany()
 ```
 
 All I needed to do from here was to use `getRawMany()` instead of `getMany()`:
 
 ## Solution 2 (✅)
 
-```
-const response =  await getConnection()
-.createQueryBuilder()
-.select('server')
-.addSelect('ROW_NUMBER () OVER (ORDER BY "vote_count" DESC) as "rank"')
-.from(Server,  'server')
-.where('is_sponsored = true')
-.offset(0)
-.limit(20)
-.getRawMany() // <- getRawMany DOES return the row number
+```javascript
+const response = await getConnection()
+  .createQueryBuilder()
+  .select('server')
+  .addSelect('ROW_NUMBER () OVER (ORDER BY "vote_count" DESC) as "rank"')
+  .from(Server, 'server')
+  .where('is_sponsored = true')
+  .offset(0)
+  .limit(20)
+  .getRawMany() // <- getRawMany DOES return the row number
 ```
 
 Last but not least, I needed to change the return object from my resolver to match the "raw" result.

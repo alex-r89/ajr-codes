@@ -23,30 +23,28 @@ The first step was to create an `api` folder inside of the `pages` folder. This 
 Within this api folder structure, all we need to do is to create a file for our API. The naming convention for this on the vercel docs is usually a file name inside square brackets. I went for `[...args].js`. Any files placed inside this folder are essentially API's, which could carry out any usual tasks a conventional API (like an express server) may do.
 The code for proxying the requests is fairly straight forward using the `http-proxy-middleware` package, found [here](https://github.com/chimurai/http-proxy-middleware):
 
-```
+```javascript
 const apiProxy = createProxyMiddleware({
-  target: "https://www.big-uk-ecommerce-site.co.uk",
+  target: 'https://www.big-uk-ecommerce-site.co.uk',
   changeOrigin: true,
   pathRewrite: {
-    [`api/product-api/pdp-service/partNumber/`]: "product-api/pdp-service/partNumber/",
+    [`api/product-api/pdp-service/partNumber/`]: 'product-api/pdp-service/partNumber/'
   },
-  secure: false,
-});
+  secure: false
+})
 ```
 
 Vercel's API Route gives us access to a `req` and `res` object (much like we would get using an express server) which we then pass into the `apiProxy` created above:
 
-```
+```javascript
 export default function (req, res) {
   apiProxy(req, res, (result) => {
     if (result instanceof Error) {
-      throw result;
+      throw result
     }
 
-    throw new Error(
-      `Request '${req.url}' is not proxied! We should never reach here!`
-    );
-  });
+    throw new Error(`Request '${req.url}' is not proxied! We should never reach here!`)
+  })
 }
 ```
 
@@ -58,16 +56,15 @@ The final piece of the puzzle is to use a Next config. A NextJS config is a regu
 
 This file can do a number of things, however the code I needed to use is fairly straight forward; it simply rewrites the request path of the source request to the companies actual product API:
 
-```
+```javascript
 module.exports = {
   rewrites: () => [
     {
-      source: "api/product-api/pdp-service/partNumber/*",
-      destination:
-        "https://www.big-uk-ecommerce-site.co.uk/product-api/pdp-service/partNumber/*",
-    },
-  ],
-};
+      source: 'api/product-api/pdp-service/partNumber/*',
+      destination: 'https://www.big-uk-ecommerce-site.co.uk/product-api/pdp-service/partNumber/*'
+    }
+  ]
+}
 ```
 
 And thats it! Coupled with the API route, this next config is all we need to proxy requests using Next.

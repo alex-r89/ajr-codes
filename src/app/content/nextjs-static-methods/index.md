@@ -16,7 +16,7 @@ After reading up on the NextJS documentation, looking and some of the NextJS exa
 
 The first problem to solve was to work out how to generate a page statically to improve the metrics above. Thankfully, this is fairly straight forward using `getStaticProps`. The `getStaticProps` method replaces `getServerSideProps` and is exported at the bottom of pages in the same way. This allows you to carry out usual data fetches to populate a page at build time. For my personal project, I make calls to my _GraphQL_ resolvers here to fetch information required in the page:
 
-```
+```javascript
 export async function getStaticProps({ params }) {
   const apolloClient = await initApolloClient({})
 
@@ -40,7 +40,7 @@ export async function getStaticProps({ params }) {
 
 This allows me to call my `getServersQuery` resolver, fetch the data I need at build time and have this route statically rendered. This data is then returned from this method, which is simply passed into my page component as props:
 
-```
+```javascript
 const PaginatedPage = ({ servers, page }) => {
 ...
 // more code here and stuff
@@ -59,7 +59,7 @@ This is where `params` comes in. The second issue I faced was needing to generat
 
 `getStaticPaths` allows you to generate the paths you need statically. In my case, I needed to work out how many pages I have, based on a calculation of the total amount of `servers` divided by the amount of `servers` per page. I would then generate an array of this total, and iterate over it using a `map` to generate page index's:
 
-```
+```javascript
 export async function getStaticPaths() {
   const SERVERS_PER_PAGE = 20
   ...
@@ -92,7 +92,7 @@ There is an issue with the explanation above. What happens if a company was to a
 
 If the above scenario was to happen, and a user was to visit `/page/21` which wasnt generated in our first example, this page would cause the `fallback` to occour. This will cause this route to be generated on the fly, and from then on be a static route. The initial user would see a loading screen, and this would need to be accounted for in the front end, but subsiquent users would see a statically generated page. I solve this using the following code in my page:
 
-```
+```javascript
 const PaginatedPage = ({ servers, page }) => {
   const router = useRouter()
 
