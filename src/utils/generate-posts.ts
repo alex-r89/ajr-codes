@@ -41,7 +41,7 @@ function readMDXFile(filePath: string) {
 function getMDXData(dir: string) {
   const mdxFolders = getMDXFiles(dir)
   return mdxFolders.map((folder) => {
-    const { metadata, content } = readMDXFile(path.join(dir, folder, 'index.mdx'))
+    const { metadata, content } = readMDXFile(path.join(dir, folder, 'index.md'))
     const slug = folder
 
     return {
