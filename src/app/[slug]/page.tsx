@@ -3,6 +3,13 @@ import { CustomMDX } from 'src/app/components/mdx'
 import { formatDate, getBlogPosts } from 'src/utils/utils'
 import { baseUrl } from 'src/app/sitemap'
 
+// Every post is exported at build time. Any other slug is served the static 404.html.
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return getBlogPosts().map((post) => ({ slug: post.slug }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 

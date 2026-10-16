@@ -7,12 +7,11 @@
     "dev": "pnpm generate-posts && next dev",
     "build": "pnpm generate-posts && next build",
     "start": "next start",
-    "preview": "pnpm generate-posts && opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "pnpm generate-posts && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "pnpm build && wrangler dev",
+    "deploy": "wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.14.8",
     "@tailwindcss/postcss": "4.0.0-alpha.13",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",

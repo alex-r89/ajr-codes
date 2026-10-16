@@ -1,21 +1,15 @@
 {
-  "main": ".open-next/worker.js",
   "name": "ajr-codes",
   "compatibility_date": "2026-01-11",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Assets only, no "main": every request is served from Next's static export without
+  // invoking Worker code. Unknown paths get the exported 404.html with a 404 status.
   "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "directory": "out",
+    "not_found_handling": "404-page"
   },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  },
-
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "ajr-codes"
-    }
-  ]
+  }
 }

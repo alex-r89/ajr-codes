@@ -2,6 +2,8 @@ import { getBlogPosts } from 'src/utils/utils'
 
 export const baseUrl = 'https://ajr.codes'
 
+export const dynamic = 'force-static'
+
 export default async function sitemap() {
   const blogs = getBlogPosts().map((post) => ({
     url: `${baseUrl}/${post.slug}`,
